@@ -1,0 +1,17 @@
+{
+    "IOCs": {
+        "IP": [
+            "8.8.8.8",
+            "13.90.8.20"
+        ],
+        "HASH": [
+            "275a021bbfb6489e54d471899f7db9d1663fc695ec2fe2a2c4538aabf651fd0f",
+            "1BC8F211F3AC2347613BD296DE3B78475FDC3177E8DF645B4A90EAC27A3D08E8"
+        ],
+        "DOMAIN": [
+            "ielonraykhelson.org",
+            "chatgpt.com"
+        ]
+    }
+    
+}

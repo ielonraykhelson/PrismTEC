@@ -51,3 +51,6 @@ def clean(string: str, funcs = None) -> str:
         string = func(string)
         
     return string
+
+if __name__ == '__main__':
+    print('helpers.py module loaded')

@@ -1,0 +1,6 @@
+Metadata-Version: 2.4
+Name: PrismTEC
+Version: 0.0.9
+Summary: PrismTEC: Threat Enrichment and Correlation Engine
+Author: Ielon Raykhelson
+Requires-Python: >=3.10

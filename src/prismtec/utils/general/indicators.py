@@ -11,3 +11,6 @@ def is_ip(ip: str) -> bool:
         return True
     except ValueError:
         return False
+    
+if __name__ == '__main__':
+    print('indicators.py module loaded')

@@ -1,2 +1,4 @@
 src/prismtec/assets/CONFIG.json
 CONFIG.json
+*.pyc
+*.egg-info

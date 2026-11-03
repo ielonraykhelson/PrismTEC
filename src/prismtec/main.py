@@ -1,5 +1,4 @@
-# explain everything
-# credits
+# FOR DEBUG WHEN RUNNING DIRECTLY AS SOURCE
 
 from prismtec.utils.enrichment.process_iocs import load_iocs, process_iocs
 from prismtec.utils.report.generation import generate_report

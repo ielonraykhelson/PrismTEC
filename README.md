@@ -1,85 +1,180 @@
+
+---
+
 # PrismTEC
-PrismTEC: The Prism Threat Enrichment and Correlation engine ingests alerts, normalizes it into a standardized format, enriches any IOCs with threat intelligence, calculates risk and confidence scores, and exports the enriched IOC information as formatted JSON generalized to support platform-ambiguity.
+
+> Threat Enrichment and Correlation Engine
+
+PrismTEC is a Python-based CLI (Command-line Interface) tool that enriches Indicators of Compromise (IOCs) with threat intelligence APIs and consolidates results into timestamped JSON reports.
 
 ---
 
-## Operational Layers
+## Features
 
-**Layer 1: Data Ingestion and Normalization**
-- Ingest bulk or isolated threat data (from "predictable structured data")
-  - Supported formats:
-    - `Splunk`, `XSOAR`
-- Reformat ingested data to PrismTEC JSON-Struct
+- Enrich IP addresses, domains, and file hashes using a combination of VirusTotal, AbuseIPDB, and IPInfo
+- Process individual indicators via direct command-line entry or in batches from JSON input files
+- Configure the enrichment process and generate structured JSON reports
+- Easily integrate PrismTEC standardized JSON reports into other tools and platforms
 
+#### Supported services and indicator types
 
+| **Indicator type** | **Supported service(s)** | **Specifications** |
+| --- | --- | --- |
+| *IP address* | `VirusTotal`, `IPinfo`, `AbuseIPDB` | `IPv4` is supported, `IPv6` is unsupported. |
+| *Hash* | `VirusTotal` | Any hashing algorithm supported by VirusTotal is supported by PrismTEC. |
+| *Domain* | `VirusTotal` | Any domain format supported by VirusTotal is supported by PrismTEC. |
 
----
+## Tech Stack
 
-## Sources for Threat Intelligence Enrichment
+- Python
+- REST APIs
+- JSON
+- Requests
+- Argparse
 
-| ***Intelligence Focus Area*** | ***Source*** |
+## Installation
+
+```
+> git clone https://github.com/ielonraykhelson/PrismTEC.git
+> cd PrismTEC
+> python -m pip install -e .
+```
+
+## Configuration
+
+> NOTE: *You* **must** *configure API keys in* `src/prismtec/assets/CONFIG.json`. *You are only required to use API keys for the services you intend to use.*
+
+#### Example `CONFIG.json`:
+
+```json
+{
+    "API-keys": {
+        "virustotal": "YOUR_API_KEY",
+        "abuseipdb": "YOUR_API_KEY",
+        "ipinfo": "YOUR_API_KEY"
+    }
+}
+```
+
+## Usage
+
+#### Enrich individual and multiple indicators
+
+```shell
+# Enrich an IP address
+$ prismtec enrich -ip [ip]
+
+# Enrich multiple IP addresses
+$ prismtec enrich -ip 8.8.8.8 9.9.9.9
+
+# Enrich a domain
+$ prismtec enrich -domain [domain]
+
+# Enrich a file hash
+$ prismtec enrich -hash [hash]
+
+# Enrich multiple indicators
+$ prismtec enrich -ip 8.8.8.8 9.9.9.9 -hash [hash]
+```
+
+#### Select enrichment services
+
+```shell
+# Enrich an IP using specific providers
+$ prismtec enrich --ip 8.8.8.8 --services virustotal abuseipdb
+
+# Enrich an IP using the default providers
+$ prismtec enrich --ip 8.8.8.8
+```
+
+#### Batch enrichment
+
+> PrismTEC supports processing multiple indicators from a JSON input file.
+
+**Example enrichment.json input file**:
+
+```json
+{
+    "IOCs": {
+        "IP": [
+            "8.8.8.8",
+            "13.90.8.20"
+        ],
+        "HASH": [
+            "275a021bbfb6489e54d471899f7db9d1663fc695ec2fe2a2c4538aabf651fd0f",
+            "1BC8F211F3AC2347613BD296DE3B78475FDC3177E8DF645B4A90EAC27A3D08E8"
+        ],
+        "DOMAIN": [
+            "ielonraykhelson.org",
+            "chatgpt.com"
+        ]
+    }
+    
+}
+```
+
+```shell
+# Process a project-relative input file
+$ prismtec enrich --input src/prismtec/assets/enrichment.json
+
+# Process an input file using an absolute path
+$ prismtec enrich --input "C:\IOCS\sample.json"
+```
+
+#### Generate output reports
+
+```shell
+# Specify a custom report filename
+$ prismtec enrich --ip 8.8.8.8 --output report.json
+
+# Specify an output directory
+$ prismtec enrich --domain example.com --output ./reports/domain-report.json
+
+# Export enrichment results
+$ prismtec enrich --hash 44d88612fea8a8f36de82e1278abb02f --output ./reports/hash-report.json
+```
+
+**Report specifications:**
+- Reports contain enrichment results grouped by indicator type and are saved as UTC-timestamped JSON files in the HHMM_ddmmyy (ex. `1722_092625`) format. 
+- Existing reports are preserved rather than overwritten, with the new report being generated with an incrementing `-#` suffix.
+- Reports are generated in JSON by default to support cross-platform implementation of PrismTEC results.
+
+#### CLI help
+
+```shell
+# Display available commands and options
+$ prismtec --help
+
+# Display enrichment-specific options
+$ prismtec enrich --help
+```
+
+## Project Structure
+
+```shell
+src/prismtec/
+├── assets/
+├── cli.py
+├── main.py
+└── utils/
+    ├── api/
+    ├── enrichment/
+    ├── general/
+    └── report/
+```
+
+| **Component** | **Description** |
 | --- | --- |
-| **IPv4 Address** | `AbuseIPDB`, `VirusTotal`, `Shodan` |
-| **Domain** | `VirusTotal`, `Whois` |
-| **URL** | `VirusTotal`, `URLScan` |
+| `cli.py` | Command-line interface |
+| `utils/api/` | API requests and service integrations |
+| `utils/enrichment/` | IOC processing and enrichment functionality |
+| `utils/general/` | Indicator validation, paths, and utilities |
+| `utils/report/` | JSON report generation |
 
-IP:
-- Reputation (is this bad):
-  - VirusTotal/AbuseIPDB
-- Infrastructure (what is it):
-  - ipinfo
-- Exposure (what is it doing):
-  - Shodan
-- DNS Relationships (what is it connected to?)
-  - SecurityTrails
-- Context (why does it matter):
-  - GreyNoise (noise vs threat classification)
-  - OTX (campaign context)
+## Scope and Purpose
 
-#edit
+PrismTEC is a highly configurable Python-based tool that automates threat intelligence enrichment, a crucial step in security analysis. When a suspicious indicator is identified, such as an IP address, file hash, domain, or a URL, a Security Analyst will typically query online and private databases to determine whether this indicator is malicious or benign, targeted, novel, or well-known. By doing so, an individual indicator can suggest ties to a larger malware family or attack pattern, which provides significant insight for the analyst; however, querying individual services can be cumbersome, especially when it is not a single indicator but hundreds.
 
----
+To address this, PrismTEC reads either specific indicators or a batch of indicators from a single JSON file, queries various services, such as VirusTotal, AbuseIPDB, and IPinfo, through their REST APIs, and writes the combined threat intelligence findings to a single standardized JSON file. Currently, only enrichment for IP addresses, hashes, and domains is supported. 
 
-## Setup Instructions:
-- Clone this repo
-- Navigate to `/PrismTEC/` (where the `pyproject.toml` is located)
-  - Install modules and fix PATH:
-    - `pip install -e .`
-- Add your API keys to `./CONFIG.json`
-
----
-
-## Relevant Notes:
-
-### Services
-
-**VirusTotal**:
-- [IP-Object Return Value](https://docs.virustotal.com/reference/ip-object)
-- [VT API Docs](https://docs.virustotal.com/reference/ip-info)
-
-**AbuseIPDB**:
-- [AbuseIPDB Documentation](https://docs.abuseipdb.com/?python#introduction)
-- AbuseIPDB documentation states the following:
-  - Too many requests result in `HTTP:429 - Too Many Requests`
-  - [API Daily Rate Limits](https://docs.abuseipdb.com/?python#api-daily-rate-limits)
-  - All API keys should be passed via headers, though they can be passed via parameters as well.
-
-**IpInfo**:
-- [IpInfo Docs](https://ipinfo.io/developers/lite-api)
-  - No daily or monthly limit and provides unlimited access
-  - ***Available fields listed in docs***
-  - `/me` in the url is to get information about your own IP
-
-**Shodan**:
-- [Shodan Dashboard](https://www.shodan.io/dashboard)
-- [Shodan Documentation](https://shodan.readthedocs.io/en/latest/)
-  - [Shodan Documentation / Looking up a host](https://shodan.readthedocs.io/en/latest/tutorial.html#looking-up-a-host)
-  - [Shodan Documentation / Functions and Exceptions](https://shodan.readthedocs.io/en/latest/api.html)
-
-### Other
-
-**IPaddress**:
-- [IPaddress Docs](https://docs.python.org/3/library/ipaddress.html)
-
-**JSON API Specifications**:
-- [JSON API specs](https://jsonapi.org/format/#errors)
+PrismTEC was built over the course of about three months, with a month for initial planning and documentation review, using only core Python libraries and API calls, validated with repeated test runs.

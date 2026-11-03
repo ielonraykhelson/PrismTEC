@@ -2,6 +2,7 @@
 ---
 
 # PrismTEC
+*Version 1.0.0*
 
 > Threat Enrichment and Correlation Engine
 

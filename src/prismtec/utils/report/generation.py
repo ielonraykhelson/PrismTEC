@@ -6,7 +6,9 @@ from pathlib import Path
 import re
 
 __all__ = [
-    ''
+    'write_data',
+    'generate_report',
+    'change_extension'
 ]
 
 def write_data(data: dict, file_path: str, use_reports_path: bool = True) -> None:

@@ -1,10 +1,12 @@
 from prismtec.utils.general.path import get_assets_path, validate_path, append_to_assets_path
 
 __all__ = [
-    '',
+    'locate_iocs',
+    'load_data',
+    'load_iocs',
+    'process_iocs'
 ]
 
-# locate iocs.json
 def locate_iocs(file_path: str = 'TARGET.json') -> bool:
     # can specify, but default to 'TARGET.json'
     

@@ -5,9 +5,9 @@ import requests, json
 
 __all__ = [
     'dump_json',
-    'get_api_key',
     'build_url',
-    'query'
+    'query',
+    'get_api_key'
 ]
 
 def dump_json(RESPONSE: requests.models.Response) -> str:

@@ -34,6 +34,9 @@ def get_current_path():
 def get_assets_path():
     return str(Path(get_current_path()) / 'src' / 'prismtec' / 'assets')
 
+def get_reports_path():
+    return str(Path(get_current_path()) / 'src' / 'prismtec' / 'reports')
+
 def append_to_assets_path(path: str) -> str:
     path = Path(path)
     if path.is_absolute():
@@ -42,8 +45,6 @@ def append_to_assets_path(path: str) -> str:
         return str(Path(get_current_path()) / path)
     return str(Path(get_assets_path()) / path)
 
-def get_reports_path():
-    return str(Path(get_current_path()) / 'src' / 'prismtec' / 'reports')
 
 def append_to_reports_path(path: str) -> str:
     path = Path(path)

@@ -4,7 +4,6 @@ from prismtec.utils.api.calls import build_url, get_api_key, query
 
 __all__ = [
     'query_virustotal',
-    'query_shodan',
     'query_abuseipdb',
     'query_ipinfo'
 ]
@@ -250,6 +249,7 @@ def query_ipinfo(indicator: None, indicator_type: str = 'ip', fields: list = ['i
                 })
         return attributes
     
+# ============ UNIMPLEMENTED ============
 def query_shodan(indicator: None, indicator_type: str = 'ip', facets: list = None) -> dict:
     """`query_shodan`: Queries Shodan for host information.
 

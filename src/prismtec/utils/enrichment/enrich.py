@@ -6,6 +6,12 @@ from prismtec.utils.api.query_services import (
 )
 from prismtec.utils.enrichment.process_iocs import load_iocs
 
+__all__ = [
+    'enrich_ip',
+    'enrich_hash',
+    'enrich_domain'
+]
+
 def enrich_ip(ip_address: str, 
               services: list = [
                     'virustotal',

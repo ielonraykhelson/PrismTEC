@@ -37,13 +37,15 @@ PrismTEC is a Python-based CLI (Command-line Interface) tool that enriches Indic
 
 ```
 > git clone https://github.com/ielonraykhelson/PrismTEC.git
-> cd PrismTEC
+> # cd into cloned directory
 > python -m pip install -e .
 ```
 
 ## Configuration
 
 > NOTE: *You* **must** *configure API keys in* `src/prismtec/assets/CONFIG.json`. *You are only required to use API keys for the services you intend to use.*
+
+> NOTE: *If you'd like execution to use the `prismtec` command directly, you must either add it to PATH or as an environment variable. Otherwise, execution will be module-based – `python -m prismtec.cli ...`.
 
 #### Example `CONFIG.json`:
 
@@ -63,29 +65,29 @@ PrismTEC is a Python-based CLI (Command-line Interface) tool that enriches Indic
 
 ```shell
 # Enrich an IP address
-$ prismtec enrich -ip [ip]
+$ python -m prismtec.cli enrich -ip [ip]
 
 # Enrich multiple IP addresses
-$ prismtec enrich -ip 8.8.8.8 9.9.9.9
+$ python -m prismtec.cli enrich -ip 8.8.8.8 9.9.9.9
 
 # Enrich a domain
-$ prismtec enrich -domain [domain]
+$ python -m prismtec.cli enrich -domain [domain]
 
 # Enrich a file hash
-$ prismtec enrich -hash [hash]
+$ python -m prismtec.cli enrich -hash [hash]
 
 # Enrich multiple indicators
-$ prismtec enrich -ip 8.8.8.8 9.9.9.9 -hash [hash]
+$ python -m prismtec.cli enrich -ip 8.8.8.8 9.9.9.9 -hash [hash]
 ```
 
 #### Select enrichment services
 
 ```shell
 # Enrich an IP using specific providers
-$ prismtec enrich --ip 8.8.8.8 --services virustotal abuseipdb
+$ python -m prismtec.cli enrich --ip 8.8.8.8 --services virustotal abuseipdb
 
 # Enrich an IP using the default providers
-$ prismtec enrich --ip 8.8.8.8
+$ python -m prismtec.cli enrich --ip 8.8.8.8
 ```
 
 #### Batch enrichment
@@ -116,23 +118,23 @@ $ prismtec enrich --ip 8.8.8.8
 
 ```shell
 # Process a project-relative input file
-$ prismtec enrich --input src/prismtec/assets/enrichment.json
+$ python -m prismtec.cli enrich --input src/prismtec/assets/enrichment.json
 
 # Process an input file using an absolute path
-$ prismtec enrich --input "C:\IOCS\sample.json"
+$ python -m prismtec.cli enrich --input "C:\IOCS\sample.json"
 ```
 
 #### Generate output reports
 
 ```shell
 # Specify a custom report filename
-$ prismtec enrich --ip 8.8.8.8 --output report.json
+$ python -m prismtec.cli enrich --ip 8.8.8.8 --output report.json
 
 # Specify an output directory
-$ prismtec enrich --domain example.com --output ./reports/domain-report.json
+$ python -m prismtec.cli enrich --domain example.com --output ./reports/domain-report.json
 
 # Export enrichment results
-$ prismtec enrich --hash 44d88612fea8a8f36de82e1278abb02f --output ./reports/hash-report.json
+$ python -m prismtec.cli enrich --hash 44d88612fea8a8f36de82e1278abb02f --output ./reports/hash-report.json
 ```
 
 **Report specifications:**
@@ -144,10 +146,10 @@ $ prismtec enrich --hash 44d88612fea8a8f36de82e1278abb02f --output ./reports/has
 
 ```shell
 # Display available commands and options
-$ prismtec --help
+$ python -m prismtec.cli --help
 
 # Display enrichment-specific options
-$ prismtec enrich --help
+$ python -m prismtec.cli enrich --help
 ```
 
 ## Project Structure

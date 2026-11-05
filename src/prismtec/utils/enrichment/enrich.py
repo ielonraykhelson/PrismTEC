@@ -24,43 +24,50 @@ def enrich_ip(ip_address: str,
     if services is not None:
         services = services
     
-    report = {ip_address: {'queried_services': []}}
+    report = {ip_address: {'queried_services': [], 'errors': {}}}
 
     if 'virustotal' in services:
-        result = query_virustotal(
-            indicator=ip_address,
-            indicator_type='ip'
-        )
-        if len(result) != 0:
-            report[ip_address]['VirusTotal'] = result
-            report[ip_address]['queried_services'].append('virustotal')
-
+        try:
+            result = query_virustotal(
+                indicator=ip_address,
+                indicator_type='ip'
+            )
+            if len(result) != 0:
+                report[ip_address]['VirusTotal'] = result
+                report[ip_address]['queried_services'].append('virustotal')
+        except Exception as e:
+            report[ip_address]['errors']['VirusTotal'] = f'{type(e).__name__}: {e}'
     if 'shodan' in services:
-        result = query_shodan(
-            indicator=ip_address,
-            indicator_type='ip'
-        )
-        if len(result) != 0:
-            report[ip_address]['Shodan'] = result
-            report[ip_address]['queried_services'].append('Shodan')
-
+        report[ip_address]['errors']['Shodan'] = f'[!] SHODAN IS UNIMPLEMENTED.'
+        # result = query_shodan(
+        #     indicator=ip_address,
+        #     indicator_type='ip'
+        # )
+        # if len(result) != 0:
+        #     report[ip_address]['Shodan'] = result
+        #     report[ip_address]['queried_services'].append('Shodan')
     if 'abuseipdb' in services:
-        result = query_abuseipdb(
-            indicator=ip_address,
-            indicator_type='ip'
-        )
-        if len(result) != 0:
-            report[ip_address]['AbuseIPDB'] = result
-            report[ip_address]['queried_services'].append('AbuseIPDB')
-
+        try:
+            result = query_abuseipdb(
+                indicator=ip_address,
+                indicator_type='ip'
+            )
+            if len(result) != 0:
+                report[ip_address]['AbuseIPDB'] = result
+                report[ip_address]['queried_services'].append('AbuseIPDB')
+        except Exception as e:
+            report[ip_address]['errors']['AbuseIPDB'] = f'{type(e).__name__}: {e}'
     if 'ipinfo' in services:
-        result = query_ipinfo(
-            indicator=ip_address,
-            fields=['ip', 'org']
-        )
-        if len(result) != 0:
-            report[ip_address]['IPInfo'] = result
-            report[ip_address]['queried_services'].append('IPInfo')
+        try:
+            result = query_ipinfo(
+                indicator=ip_address,
+                fields=['ip', 'org']
+            )
+            if len(result) != 0:
+                report[ip_address]['IPInfo'] = result
+                report[ip_address]['queried_services'].append('IPInfo')
+        except Exception as e:
+            report[ip_address]['errors']['IPinfo'] = f'{type(e).__name__}: {e}'
 
     return report
     
@@ -72,16 +79,19 @@ def enrich_hash(hash: str,
     if services is not None:
         services = services
     
-    report = {hash: {'queried_services': []}}
+    report = {hash: {'queried_services': [], 'errors': {}}}
 
     if 'virustotal' in services:
-        result = query_virustotal(
-            indicator=hash,
-            indicator_type='hash'
-        )
-        if len(result) != 0:
-            report[hash]['VirusTotal'] = result
-            report[hash]['queried_services'].append('virustotal')
+        try:
+            result = query_virustotal(
+                indicator=hash,
+                indicator_type='hash'
+            )
+            if len(result) != 0:
+                report[hash]['VirusTotal'] = result
+                report[hash]['queried_services'].append('virustotal')
+        except Exception as e:
+            report[hash]['errors']['VirusTotal'] = f'{type(e).__name__}: {e}'
             
     return report
 
@@ -93,17 +103,21 @@ def enrich_domain(domain: str,
     if services is not None:
         services = services
     
-    report = {domain: {'queried_services': []}}
+    report = {domain: {'queried_services': [], 'errors': {}}}
 
-    if 'virustotal' in services:
-        result = query_virustotal(
-            indicator=domain,
-            indicator_type='domain'
-        )
-        if len(result) != 0:
-            report[domain]['VirusTotal'] = result
-            report[domain]['queried_services'].append('virustotal')
-            
+    try:
+        if 'virustotal' in services:
+            result = query_virustotal(
+                indicator=domain,
+                indicator_type='domain'
+            )
+            if len(result) != 0:
+                report[domain]['VirusTotal'] = result
+                report[domain]['queried_services'].append('virustotal')
+    except Exception as e:
+        report[domain]['errors']['VirusTotal'] = f'{type(e).__name__}: {e}'
+
+
     return report
 
 if __name__ == '__main__':

@@ -35,8 +35,10 @@ def query(url: str, headers: dict = None,
     RESPONSE = requests.get(
         url=url,
         headers=headers,
-        params=parameters
+        params=parameters,
+        timeout=15
     )
+    RESPONSE.raise_for_status()
     
     dump = dump_json(RESPONSE=RESPONSE)
     return dump
@@ -51,7 +53,7 @@ def get_api_key(service: str = None) -> str:
     
     service = clean(service)
     try:
-        file_path = f'{get_assets_path()}\\CONFIG.json'
+        file_path = os.path.join(get_assets_path(), 'CONFIG.json')
         with open(file_path, 'r') as file:
             data = json.load(file)
             api_key = data['API-keys'][service]

@@ -45,7 +45,7 @@ PrismTEC is a Python-based CLI (Command-line Interface) tool that enriches Indic
 
 > NOTE: *You* **must** *configure API keys in* `src/prismtec/assets/CONFIG.json`. *You are only required to use API keys for the services you intend to use.*
 
-> NOTE: *If you'd like execution to use the `prismtec` command directly, you must either add it to PATH or as an environment variable. Otherwise, execution will be module-based – `python -m prismtec.cli ...`.
+> NOTE: *If you'd like execution to use the `prismtec` command directly, you must either add it to PATH or as an environment variable. Otherwise, execution will be module-based – `python -m prismtec.cli ...`.*
 
 #### Example `CONFIG.json`:
 

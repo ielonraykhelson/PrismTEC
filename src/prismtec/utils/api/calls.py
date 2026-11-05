@@ -58,7 +58,7 @@ def get_api_key(service: str = None) -> str:
             data = json.load(file)
             api_key = data['API-keys'][service]
     except FileNotFoundError:
-        raise FileNotFoundError(f'{file_path} NOT FOUND AT {get_current_path()}')
+        raise FileNotFoundError(f'{file_path} NOT FOUND.')
     
     return api_key
 

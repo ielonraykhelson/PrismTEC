@@ -7,7 +7,7 @@
 **Bug fixes:**
 - `calls.py`
     - An API timeout or hanging request would terminate or freeze execution, making it a single-point-of-failure. Integrating API request timeouts should address this...
-    - Fixed a pathing bug in `get_api_key()`
+    - Fixed a pathing bug and misleading error message in `get_api_key()`.
 - `enrich.py`
     - API errors would terminate execution, making it an SPOF. Integrating query error-handling should address this...
 

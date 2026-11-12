@@ -10,9 +10,13 @@ PrismTEC is a Python-based CLI (Command-line Interface) tool that enriches Indic
 
 ---
 
+### PrismTEC Tool Demo: "Enriching Indicators of Compromise from the Command Line"
+
+[![PrismTEC Tool Demo: "Enriching Indicators of Compromise from the Command Line"](https://img.youtube.com/vi/-0LY2Fz60ac/0.jpg)](https://www.youtube.com/watch?v=-0LY2Fz60ac)
+
 - [Portfolio Article: "PrismTEC – Enriching Indicators of Compromise from the Command Line"](https://ielonraykhelson.org/prismtec/)
 - [PrismTEC GitHub Repository](https://github.com/ielonraykhelson/PrismTEC)
-- [ PrismTEC Tool Demo: "Enriching Indicators of Compromise from the Command Line"](https://www.youtube.com/watch?v=-0LY2Fz60ac)
+- [PrismTEC Tool Demo: "Enriching Indicators of Compromise from the Command Line"](https://www.youtube.com/watch?v=-0LY2Fz60ac)
 
 ---
 

@@ -10,6 +10,12 @@ PrismTEC is a Python-based CLI (Command-line Interface) tool that enriches Indic
 
 ---
 
+- [Portfolio Article: "PrismTEC – Enriching Indicators of Compromise from the Command Line"](https://ielonraykhelson.org/prismtec/)
+- [PrismTEC GitHub Repository](https://github.com/ielonraykhelson/PrismTEC)
+- [ PrismTEC Tool Demo: "Enriching Indicators of Compromise from the Command Line"](https://www.youtube.com/watch?v=-0LY2Fz60ac)
+
+---
+
 ## Features
 
 - Enrich IP addresses, domains, and file hashes using a combination of VirusTotal, AbuseIPDB, and IPInfo
